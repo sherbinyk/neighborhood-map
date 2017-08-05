@@ -23,7 +23,7 @@ class Location{
 			'infoWindowOpened': false,
 			'markerOnMap': false,
 			'isFocused': false,
-		}
+		};
 
 		this.__setCenterTimeout = null,
 
@@ -48,7 +48,7 @@ class Location{
 		 * @param  {[type]} ()              [description]
 		 * @return {[type]}                 [description]
 		 */
-		this.mapApp.google.maps.event.addListener( this.mapApp.map, 'resize', () => { this.centerMarker() } );
+		this.mapApp.google.maps.event.addListener( this.mapApp.map, 'resize', () => { this.centerMarker(); } );
 
 	}
 
@@ -67,7 +67,7 @@ class Location{
 					lat: this.lat,
 					lng: this.lng
 				} );
-			}, 500 )
+			}, 500 );
 				
 		}
 	}
@@ -88,7 +88,7 @@ class Location{
 					this.hideInfoWindow();
 				else
 					this.showInfoWindow();
-			} )
+			} );
 
 		}
 		else{
@@ -116,13 +116,13 @@ class Location{
 	 */
 	animateMarker( timeout ){
 		if( this.marker ){
-			this.marker.setAnimation( this.mapApp.google.maps.Animation.BOUNCE )
+			this.marker.setAnimation( this.mapApp.google.maps.Animation.BOUNCE );
 
 			// Stop Animation
 			if( ! isNaN( timeout ) ){
 				setTimeout( () => {
 					this.stopMarkerAnimation();
-				}, timeout )
+				}, timeout );
 			}
 		}
 	}
@@ -133,7 +133,7 @@ class Location{
 	 */
 	stopMarkerAnimation(){
 		if( this.marker ){
-			this.marker.setAnimation( null )
+			this.marker.setAnimation( null );
 		}
 	}
 
@@ -209,7 +209,7 @@ class Location{
 					}
 						
 				}
-			} )
+			} );
 		}
 	}
 
@@ -248,6 +248,6 @@ Object.defineProperties( Location.prototype, {
 		},
 		writable: true,
 	}
-} )
+} );
 
 module.exports = Location;
