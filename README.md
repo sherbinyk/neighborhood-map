@@ -1,4 +1,4 @@
-#Udacity Full Stack Nanodegree Project
+# Udacity Full Stack Nanodegree Project
 This is a single page application featuring a map of a neighborhood to some places. 
 
 ### Dependencies
