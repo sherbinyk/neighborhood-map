@@ -1,0 +1,122 @@
+html, body{
+	color: #fff;
+}
+
+#menu-side{
+	position: fixed;
+	background: #3e3e3e;
+	width: 250px;
+	float: left;
+	min-height: 100%;
+	padding: 10px;
+
+	-webkit-transition: left .2s linear;
+	-moz-transition: left .2s linear;
+	-o-transition: left .2s linear;
+	-ms-transition: left .2s linear;
+	transition: left .2s linear;
+
+	z-index: 1;
+}
+
+
+body.menu-visible #menu-side{
+	left: 0px;
+}
+
+body:not(.menu-visible) #menu-side{
+	left: -250px;
+}
+
+
+body.menu-float #menu-side{
+	padding-top: 40px;
+}
+
+body:not(.menu-float) #menu-side{
+	top: 0px;
+}
+
+#content-side{
+	margin-left: 0px;
+
+	webkit-transition: all .2s linear;
+	-moz-transition: all .2s linear;
+	-o-transition: all .2s linear;
+	-ms-transition: all .2s linear;
+	transition: all .2s linear;
+}
+
+
+body.menu-visible:not(.menu-float) #content-side{
+	margin-left: 250px;
+}
+
+#content-side nav{
+	padding: 15px;
+	background: #3e3e3e;
+	position: relative;
+	z-index: 1;
+}
+
+
+#content-side nav{
+	padding: 5px 15px;
+	background: #3e3e3e;
+}
+
+#neighborhood-map{
+	background: #0aa;
+	height: 100px;
+	width: 100%;
+}
+
+#bars{
+	font-size: 22px;
+	color: #fff;
+	text-decoration: none;
+}
+
+nav h4{
+	margin: 0;
+	line-height: 30px;
+}
+
+
+#menu-side ul.locations{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+#menu-side ul.locations li a{
+	display: block;
+	border-bottom: 1px solid #555;
+	padding: 10px;
+	text-decoration: none;
+	color: #ddd;
+}
+
+#menu-side ul.locations li a:hover, #menu-side ul.locations li a.active{
+	color: #fff;
+	background: rgba( 200, 200, 200, .3 )
+}
+
+
+
+.info-window{
+	color: #666;
+}
+
+
+.relative{
+	position: relative;
+}
+
+.locations .marker{
+	position: absolute;
+	right: 0;
+	top: 0;
+	display: inline-block;
+	padding: 10px;
+}
