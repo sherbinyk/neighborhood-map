@@ -25,6 +25,14 @@ class Location{
 			'isFocused': false,
 		};
 
+		/**
+		 * Other Class Properties
+		 * @type {String}
+		 */
+		this.address = '';
+		this.wikiContent = '';
+		this.wikipedia = null;
+
 		this.__setCenterTimeout = null,
 
 		// Add Marker On Map
@@ -161,17 +169,15 @@ class Location{
 		
 		// if( force )
 		// 	this.infoWindow = null;
+		this.wikiContent = '<strong>Wikipidia: </strong>  Loading... ';
 
 		if( this.wikipedia ){
 			if( Object.keys( this.wikipedia ).length > 0 ){
 				// Ok There ara data
-				var wikiContent = `<strong>Wikipidia:</strong> ${ this.wikipedia.description.substr( 0, 100 ) + '...' } <a href="${this.wikipedia.link}">More</a>`;
+				this.wikiContent = `<strong>Wikipidia:</strong> ${ this.wikipedia.description.substr( 0, 100 ) + '...' } <a target="_blank" href="${this.wikipedia.link}">More</a>`;
 			} else{
-				var wikiContent = `<strong>Wikipidia:</strong> No data found on wikipedia for <b>${ this.name }</b>`;
+				this.wikiContent = `<strong>Wikipidia:</strong> No data found on wikipedia for <b>${ this.name }</b>`;
 			}
-		}
-		else{
-			var wikiContent = '<strong>Wikipidia: </strong>  Loading... ';
 		}
 			
 		var content = `
@@ -180,7 +186,7 @@ class Location{
 				<div>
 					<strong>Address:</strong> ${this.address}
 					<br>
-					${wikiContent}
+					${this.wikiContent}
 				</div>
 			</div>
 		`;
