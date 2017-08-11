@@ -280,7 +280,7 @@ class Location{
 					this.wikipedia = {
 						description: r[ 2 ][0],
 						link: r[ 3 ][0],
-					}
+					};
 				}else
 				{
 					this.wikipedia = {};
@@ -308,7 +308,7 @@ class Location{
 			} )
 			.always( () => {
 				this.__setInfoWindow();
-			} )
+			} );
 		}
 	}
 
