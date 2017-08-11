@@ -30,7 +30,8 @@ body:not(.menu-visible) #menu-side{
 
 
 body.menu-float #menu-side{
-	padding-top: 40px;
+	padding-top: 50px;
+	background: rgba( 62, 62, 62, .7 );
 }
 
 body:not(.menu-float) #menu-side{
@@ -53,16 +54,10 @@ body.menu-visible:not(.menu-float) #content-side{
 }
 
 #content-side nav{
-	padding: 15px;
+	padding: 5px 15px;
 	background: #3e3e3e;
 	position: relative;
 	z-index: 1;
-}
-
-
-#content-side nav{
-	padding: 5px 15px;
-	background: #3e3e3e;
 }
 
 #neighborhood-map{
@@ -80,6 +75,7 @@ body.menu-visible:not(.menu-float) #content-side{
 nav h4{
 	margin: 0;
 	line-height: 30px;
+	color: #fff;
 }
 
 
@@ -102,10 +98,35 @@ nav h4{
 	background: rgba( 200, 200, 200, .3 )
 }
 
+#menu-side .show-all{
+	margin: 10px 0;
+}
+
 
 
 .info-window{
 	color: #666;
+	overflow: auto;
+}
+
+.info-window .name{
+	text-align: center;
+}
+
+@media (max-width: 480px){
+	.info-window{
+		max-width: 200px;
+	}
+
+	nav h4{
+		font-size: 13px;
+	}
+}
+
+@media (min-width: 481px) and (max-width: 1024px){
+	.info-window{
+		max-width: 400px;
+	}
 }
 
 
@@ -114,9 +135,28 @@ nav h4{
 }
 
 .locations .marker{
+	color: #fff;
 	position: absolute;
 	right: 0;
 	top: 0;
 	display: inline-block;
 	padding: 10px;
+}
+
+.loading{
+	display: flex;
+	position: fixed;
+	left: 0;
+	top:0;
+	width: 100%;
+	height: 100%;
+	z-index: 2;
+	background: url( '../images/loading.svg' ) no-repeat 50% 50% rgba( 255, 255, 255, .9 );
+	text-align: center;
+	justify-content: center;
+	align-items: center;
+}
+
+.loading h5{
+	padding-top: 90px;
 }

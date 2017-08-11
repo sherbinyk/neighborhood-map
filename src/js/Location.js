@@ -40,6 +40,11 @@ class Location{
 		 */
 		this.__getAddress();
 
+		/**
+		 * Get Description from wikipedia
+		 */
+		this.__getWikipediaDescription();
+
 
 		/**
 		 * Listen for Map resize
@@ -49,6 +54,10 @@ class Location{
 		 * @return {[type]}                 [description]
 		 */
 		this.mapApp.google.maps.event.addListener( this.mapApp.map, 'resize', () => { this.centerMarker(); } );
+
+
+		// Add Location Instances To Instances Array
+		this.instances[ this.id ] = this;
 
 	}
 
@@ -81,22 +90,29 @@ class Location{
 			this.marker = this.mapApp.addMarker( { lat: this.lat, lng: this.lng } );
 
 			this.marker.addListener( 'click', () => {
-				this.stopMarkerAnimation();
 
-				// Toggle Info Window
-				if( this.status.infoWindowOpened )
-					this.hideInfoWindow();
-				else
-					this.showInfoWindow();
+				this.focus( 10000 );
+
+				if( window.appModel ){
+					window.appModel.activeLocationId( this.id );
+				}
 			} );
 
 		}
-		else{
-			this.marker.setMap( this.mapApp.map );
-		}
+		
+
+	}
+
+	/**
+	 * Show Marker On Map
+	 */
+	showMarker(){
+		if( ! this.marker )
+			this.addMarker();
+
+		this.marker.setMap( this.mapApp.map );
 
 		this.markerOnMap = true;
-
 	}
 
 	/**
@@ -145,14 +161,26 @@ class Location{
 		
 		// if( force )
 		// 	this.infoWindow = null;
+
+		if( this.wikipedia ){
+			if( Object.keys( this.wikipedia ).length > 0 ){
+				// Ok There ara data
+				var wikiContent = `<strong>Wikipidia:</strong> ${ this.wikipedia.description.substr( 0, 100 ) + '...' } <a href="${this.wikipedia.link}">More</a>`;
+			} else{
+				var wikiContent = `<strong>Wikipidia:</strong> No data found on wikipedia for <b>${ this.name }</b>`;
+			}
+		}
+		else{
+			var wikiContent = '<strong>Wikipidia: </strong>  Loading... ';
+		}
 			
 		var content = `
 			<div class="info-window">
-				<h5>${this.name}</h5>
+				<h5 class="name">${this.name}</h5>
 				<div>
 					<strong>Address:</strong> ${this.address}
 					<br>
-					<strong>Wikipidia:</strong> <a target="_blank" href="https://en.wikipedia.org/wiki/${this.name}">${this.name}</a>
+					${wikiContent}
 				</div>
 			</div>
 		`;
@@ -209,7 +237,72 @@ class Location{
 					}
 						
 				}
+				else{
+					$.notify( {
+						// options
+						icon: 'glyphicon glyphicon-warning-sign',
+						title: '<b>'+ this.name +'</b>',
+						message: 'Error calling GoggleMaps APi to get address.',
+					}, {
+						timer: 0,
+
+						type: "warning",
+						allow_dismiss: true,
+						animate: {
+							enter: 'animated rubberBand',
+							exit: 'animated fadeOutUp'
+						},
+					} );
+				}
 			} );
+		}
+	}
+
+	__getWikipediaDescription(){
+		var name = this.name;
+		if( ! this.wikipedia ){
+			// Ajax Request
+			$.ajax( {
+				type: 'GET',
+				dataType: 'JSONP',
+				url: 'https://en.wikipedia.org/w/api.php',
+				data: { 'action': 'opensearch', 'search': name },
+			} )
+			.done( (r) => {
+				// console.log( r );
+				if( r[ 1 ].length ){
+					this.wikipedia = {
+						description: r[ 2 ][0],
+						link: r[ 3 ][0],
+					}
+				}else
+				{
+					this.wikipedia = {};
+				}
+			} )
+			.fail( ( error ) => {
+				// alert( 'Error getting wikipedia info' );
+				this.wikipedia = {};
+
+				$.notify( {
+						// options
+						icon: 'glyphicon glyphicon-warning-sign',
+						title: '<b>'+ this.name +'</b>',
+						message: 'Error calling Wikipedia APi to get location description.',
+					}, {
+						timer: 0,
+
+						type: "warning",
+						allow_dismiss: true,
+						animate: {
+							enter: 'animated rubberBand',
+							exit: 'animated fadeOutUp'
+						},
+					} );
+			} )
+			.always( () => {
+				this.__setInfoWindow();
+			} )
 		}
 	}
 
@@ -220,11 +313,14 @@ class Location{
 	 */
 	focus( timeout ){
 		this.mapApp.map.setCenter( { lat: this.lat, lng: this.lng } );
-		this.addMarker();
+		this.showMarker();
 		this.showInfoWindow();
 		this.animateMarker( timeout );
 
 		this.status.isFocused = true;
+
+		// Hide All Others
+		this.unFocusOthers();
 	}
 
 	/**
@@ -233,11 +329,23 @@ class Location{
 	 * @return {[type]} [description]
 	 */
 	unFocus(){
+		this.removeMarker();
 		this.hideInfoWindow();
 		this.stopMarkerAnimation();
 
 		this.status.isFocused = false;
 
+	}
+
+	/**
+	 * Un Focus Other Markers
+	 * @return {[type]} [description]
+	 */
+	unFocusOthers(){
+		for( var id in this.instances ){
+			if( id != this.id )
+				this.instances[ id ].unFocus();
+		}
 	}
 }
 
@@ -247,7 +355,56 @@ Object.defineProperties( Location.prototype, {
 			lastId: 0,
 		},
 		writable: true,
-	}
+	},
+
+	instances: {
+		value: {},
+		writable: true,
+	},
+
+	
 } );
+
+/**
+ * Define static methods
+ */
+Object.defineProperties( Location, {
+	/**
+	 * Show All Markers
+	 * @type {Object}
+	 */
+	showAllMarkers: {
+		value: function(){
+			for( var id in Location.prototype.instances ){
+				Location.prototype.instances[ id ].showMarker();
+				Location.prototype.instances[ id ].hideInfoWindow();
+			}
+		},
+		enumerable: true,
+	},
+
+	/**
+	 * Show Only Specific Locations
+	 * @type {Object}
+	 */
+	showOnly: {
+		value: function( locations ){
+			for( var id in Location.prototype.instances ){
+
+				if( locations.indexOf( Location.prototype.instances[ id ] ) === -1 ){
+					// Hide
+					Location.prototype.instances[ id ].removeMarker();
+					Location.prototype.instances[ id ].hideInfoWindow();
+				}
+				else{
+					//  Show
+					Location.prototype.instances[ id ].showMarker();
+				}
+
+			}
+		},
+		enumerable: true,
+	},
+});
 
 module.exports = Location;

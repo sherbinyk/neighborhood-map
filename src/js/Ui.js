@@ -1,10 +1,18 @@
-var navHeight = $('#content-side nav').outerHeight();
+var navHeight = $('#content-side nav').height();
 var $map = $( '#neighborhood-map' );
 var $window = $(window);
 var $bars = $('#bars');
 var $menuSide  = $( '#menu-side' );
 var $contentSide  = $( '#content-side' );
 var $body = $('body');
+var $loading = $('.loading');
+
+// Listen For Body Map Loaded
+$body.on( 'GoogleMapLoaded', () => {
+	$loading.fadeOut( () => {
+		$loading.remove();
+	});
+} );
 
 // MENU
 // menu Modes => Fixed OR Float
@@ -14,7 +22,7 @@ var $body = $('body');
  * Set Map Height Function
  */
 function setMapHeight() {
-	var mapHeight = $window.height() - navHeight;
+	var mapHeight = $window.height() - navHeight - 10;
 
 	$map.css( 'height', mapHeight + 'px' );
 

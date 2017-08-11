@@ -62,7 +62,7 @@ module.exports = {
 			},
 
 			/**
-			 * Rule for Fonts Files
+			 * Rule for Files
 			 */
 			{
 			  test: /\.(png|jpg|jpeg|gif)(\?v=\d+\.\d+\.\d+)?$/,

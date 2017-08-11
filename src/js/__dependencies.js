@@ -20,6 +20,17 @@ import 'bootstrap-loader';
  */
 import 'font-awesome/scss/font-awesome.scss';
 
+/**
+ * Bootstrap Notification
+ */
+import 'bootstrap-notify';
+
+
+/**
+ * Import Animate.CSS
+ */
+import 'animate.css';
+
 
 /**
  * App CSS

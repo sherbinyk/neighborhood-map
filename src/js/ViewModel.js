@@ -1,4 +1,5 @@
 let $this;
+let Location = require( './Location' );
 
 class ViewModel{
 
@@ -29,6 +30,17 @@ class ViewModel{
 			else
 				return this.locations;
 		} );
+
+		/**
+		 * Subscribe to Filtered Locations Changes
+		 * @param  {[type]} newValue) {		             console.log( newValue );		} [description]
+		 * @return {[type]}           [description]
+		 */
+		this.filteredLocations.subscribe((newValue) => {
+		    console.log( newValue );
+
+		    Location.showOnly( newValue );
+		});
 
 
 		/**
@@ -62,6 +74,23 @@ class ViewModel{
 		location.focus( 10000);
 
 		$this.activeLocationId( location.id );
+	}
+
+	/**
+	 * Show All Locations
+	 * @return {[type]} [description]
+	 */
+	showAll(){
+		// Clear Active
+		$this.activeLocationId( '' );
+
+		// Clear All Filters
+		$this.searchKeyword( '' );
+
+		/**
+		 * Show All Locations Markers
+		 */
+		Location.showAllMarkers();
 	}
 
 }
