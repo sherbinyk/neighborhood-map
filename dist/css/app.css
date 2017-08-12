@@ -5826,6 +5826,10 @@ nav h4{
 	align-items: center;
 }
 
+.loading.error{
+	background-image: url(/dist/fonts/error.svg);
+}
+
 .loading h5{
 	padding-top: 90px;
 }

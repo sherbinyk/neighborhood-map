@@ -37,9 +37,9 @@ class ViewModel{
 		 * @return {[type]}           [description]
 		 */
 		this.filteredLocations.subscribe((newValue) => {
-		    console.log( newValue );
+			console.log( newValue );
 
-		    Location.showOnly( newValue );
+			Location.showOnly( newValue );
 		});
 
 

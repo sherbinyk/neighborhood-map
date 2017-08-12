@@ -76,6 +76,16 @@ module.exports = {
 			  }
 			},
 
+			{
+	          test: /\.js$/,
+	          enforce: 'pre',
+
+	          loader: 'eslint-loader',
+	          options: {
+	            emitWarning: true,
+	          },
+	        },
+
 			
 		],
 	},
@@ -91,7 +101,8 @@ module.exports = {
 			$: 'jquery',
 			jQuery: 'jquery',
 
-			GoogleMapsLoader: 'google-maps',
+			// GoogleMapsLoader: 'google-maps',
+			GoogleMapsApiLoader: 'google-maps-api-loader',
 		}),
 
 

@@ -2,8 +2,8 @@ var navHeight = $('#content-side nav').height();
 var $map = $( '#neighborhood-map' );
 var $window = $(window);
 var $bars = $('#bars');
-var $menuSide  = $( '#menu-side' );
-var $contentSide  = $( '#content-side' );
+// var $menuSide  = $( '#menu-side' );
+// var $contentSide  = $( '#content-side' );
 var $body = $('body');
 var $loading = $('.loading');
 
@@ -88,11 +88,11 @@ $bars.click( () => {
 		hideSideMenu();
 
 		// Trigger Event On Map Element, to use it anywhere if we want
-		$map.trigger( 'menuModeChanged', 'hidden' )
+		$map.trigger( 'menuModeChanged', 'hidden' );
 	}
 	else{
 		showSideMenu();
-		$map.trigger( 'menuModeChanged', 'visible' )
+		$map.trigger( 'menuModeChanged', 'visible' );
 	}
 
 } );

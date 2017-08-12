@@ -82,7 +82,7 @@ class Location{
 			this.__setCenterTimeout = setTimeout( () => {
 				this.mapApp.map.setCenter( {
 					lat: this.lat,
-					lng: this.lng
+					lng: this.lng,
 				} );
 			}, 500 );
 				
@@ -252,11 +252,11 @@ class Location{
 					}, {
 						timer: 0,
 
-						type: "warning",
+						type: 'warning',
 						allow_dismiss: true,
 						animate: {
 							enter: 'animated rubberBand',
-							exit: 'animated fadeOutUp'
+							exit: 'animated fadeOutUp',
 						},
 					} );
 				}
@@ -298,11 +298,11 @@ class Location{
 					}, {
 						timer: 0,
 
-						type: "warning",
+						type: 'warning',
 						allow_dismiss: true,
 						animate: {
 							enter: 'animated rubberBand',
-							exit: 'animated fadeOutUp'
+							exit: 'animated fadeOutUp',
 						},
 					} );
 			} )
